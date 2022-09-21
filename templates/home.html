@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block body %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='home.css') }}">
+	<section class="listings">
+		<div class="wrapper">
+			<ul class="properties_list">
+                {% for row in data %}
+				<li>
+					<a href="/home/service/{{ row['service_id'] }}">
+						<img src="{{ row['image'] }}" alt="{{ row['name'] }}" title="" class="property_img"/>
+					</a>
+					<span class="price">${{ row['price'] }}</span>
+					<div class="property_details">
+						<h1>
+							<a href="/home/service/{{ row['service_id'] }}">{{ row['name'] }}</a>
+						</h1>
+						<h2>{{ row['type'] }}<span class="property_size"> {{ row['date'] }}</span></h2>
+					</div>
+				</li>
+                {% endfor %}
+			</ul>
+		</div>
+	</section>
+{% endblock %}

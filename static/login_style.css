@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;500;700&display=swap');
+
+*{
+    margin: 0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: hsl(204 100% 5%);
+    font-family: 'Raleway', sans-serif;
+    display: block;
+}
+
+.get-started{
+  display: flex;
+  flex-direction: column;
+  margin: 20vh auto;
+  width: 500px;
+  padding: 30px;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+
+
+}
+.get-started p{
+  font-size: 30pt;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  color: #2f3542;
+   margin-top: 20px;
+   margin-bottom: 30px;
+
+}
+
+p.have-no-account{
+    font-size: 15pt;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    color: black;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.login-form{
+  margin: 8px 0;
+  padding: 16px 12px;
+  width: 350px;
+  outline-style: none;
+  border: none;
+  font-family: 'Raleway';
+  font-size: 12pt;
+  font-weight: 500;
+  border: none;
+  border: solid 4px rgb(235, 235, 235);
+
+}
+
+.login-btn{
+  width: 350px;
+  outlyne-style: none;
+  border: none;
+  background-color: #5352ed;
+  font-size: 'Raleway';
+  font-weight: 700;
+  color: white;
+  font-size:18pt;
+  padding: 16px 0px;
+  margin-top: 20px;
+  margin: 20px 0;
+  cursor: pointer;
+}
