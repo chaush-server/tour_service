@@ -137,7 +137,7 @@ def register():
         elif not username or not password or not email:
             msg = 'Please fill out the form !'
         else:
-            cursor.execute('INSERT INTO user VALUES (NULL, % s, % s, % s)', (username, password, email,))
+            cursor.execute(f'INSERT INTO user VALUES (NULL, "{username}", "{password}", "{email}", 0)')
             db.commit()
             return redirect('/login')
     elif request.method == 'POST':
