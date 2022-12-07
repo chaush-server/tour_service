@@ -1,24 +1,128 @@
 {% extends 'base.html' %}
+{% block title %}Home{% endblock %}
 {% block body %}
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='home.css') }}">
-	<section class="listings">
-		<div class="wrapper">
-			<ul class="properties_list">
-                {% for row in data %}
-				<li>
-					<a href="/home/service/{{ row['service_id'] }}">
-						<img src="{{ row['image'] }}" alt="{{ row['name'] }}" title="" class="property_img"/>
-					</a>
-					<span class="price">${{ row['price'] }}</span>
-					<div class="property_details">
-						<h1>
-							<a href="/home/service/{{ row['service_id'] }}">{{ row['name'] }}</a>
-						</h1>
-						<h2>{{ row['type'] }}<span class="property_size"> {{ row['date'] }}</span></h2>
-					</div>
-				</li>
-                {% endfor %}
-			</ul>
-		</div>
-	</section>
+    <style>
+        a {
+            text-decoration: none;
+        }
+
+        .card.card-service-grid {
+            box-shadow: 0 1px 2px rgba(51 51 51 / 7%);
+        }
+
+        .card.card-service-grid .img-wrap {
+            border-radius: 0.25rem 0.25rem 0 0;
+        }
+
+        .card-service-grid .img-wrap {
+        }
+
+        [class*=card-service-grid] .img-wrap {
+            position: relative;
+        }
+
+        .img-wrap {
+            text-align: center;
+            overflow: hidden;
+            display: block;
+        }
+
+        [class*=card-service-grid] .img-wrap img {
+            margin-top: -10%;
+            margin-bottom: -10%;
+            height: auto;
+            max-width: 100%;
+            width: auto;
+        }
+
+        .mix-blend-mode {
+
+            mix-blend-mode: multiply;
+        }
+
+        .bg-gray-light {
+        }
+
+        .card-service-grid .card-service-info {
+            padding: 0.25rem 0.50rem;
+            overflow: hidden;
+        }
+
+        .card-service-grid .title {
+            color: #6a6f74;
+            height: 3rem;
+            font-weight: 600;
+            font-size: 16px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin-bottom: 0.15rem;
+        }
+
+        [class*=card-service-grid] .price {
+            color: #383d43;
+            font-weight: 600;
+
+        }
+
+        .card-service-grid .topbar {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            z-index: 10;
+            text-align: right;
+            padding: 1px 6px;
+        }
+
+        .row {
+            margin: 20px;
+        }
+
+        .card-service-grid .topbar .tag-discount {
+            background-color: #e13454;
+            border-radius: 0.25rem;
+            padding: 0.32rem 0.7rem;
+        }
+
+        .sticky {
+            position: sticky;
+            top: 4.5em;
+        }
+    </style>
+    <div class="row">
+        {% if data is defined %}
+            {% for service in data %}
+                <div class="col-6 col-sm-12 col-md-4 col-lg-six mb-4">
+                    <figure class="card card-service-grid" onmouseover="this.style.background='#f8f2ea';"
+                            onmouseout="this.style.background='white';">
+                        <div class="img-wrap rounded bg-gray-light">
+                            <span class="overlay"></span>
+                            <a href="/service/{{ service.service_id }}">
+                                <img class="mix-blend-mode"
+                                     src="{{ service.image }}"
+                                     alt="image">
+                            </a>
+                        </div>
+                        <div>
+                        </div>
+                        <figcaption class="card-service-info">
+                            <a href="/service/{{ service.service_id }}" class="title">{{ service.name }}</a>
+                            <div class="price-wrap">
+                                <span class="price">{{ service.price }} ₽</span>
+                            </div>
+                            <a href="/cart/{{ service.service_id }}">
+                                <button class="btn btn-sm btn-outline-danger w-100 mt-2">Приобрести</button>
+                            </a>
+
+                        </figcaption>
+                    </figure>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div style="color:#001a34; font-size:28px; font-weight: 700; text-align:center">Ничего не найдено</div>
+        {% endif %}
+
+    </div>
 {% endblock %}

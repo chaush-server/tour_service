@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Корзина
+{% endblock %}
+
+{% block body %}
+    <style>
+
+        .out_login {
+            text-align: center;
+        }
+
+        .cart_pay {
+            display: flex;
+        }
+
+        .payment {
+            padding: 20px;
+            margin: 0 20px;
+            border: none;
+            border-radius: 12px;
+            min-width: 300px;
+            width: 400px;
+            box-shadow: 0 6px 16px rgb(0 26 52 / 16%), 0 0 0 rgb(0 26 52 / 5%);
+        }
+
+    </style>
+    <div class="container">
+        <div>
+            {% if session['logged'] == true %}
+
+                {% if data is defined %}{% for ser in data %}
+                    </div>
+                    {{ data }}
+                    </div>
+
+                {% endfor %}
+                    <div style="color:#001a34; font-size:28px; font-weight: 700;">Корзина</div>
+                    <br>
+                    <div class="cart_pay">
+                        <div>
+
+
+                        </div>
+                        <div>
+                            <div class="payment">
+                                <div style="font-size:20px;font-weight: 600;">Ваша корзина</div>
+                                <div id="total_count">Товары ({{ total_count }})</div>
+                                <hr>
+                                <span>
+                        <span style="font-size:20px;font-weight: 600; ">Общая стоимость</span>
+                        <span style="font-size:20px;font-weight: 600; display:block; float:right"
+                              id="total_price">{{ total_price }}</span>
+                    </span>
+                                <button style="margin-top:16px" class="btn btn-success w-100">Перейти к оформлению
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                {% else %}
+                    <div style="color:#001a34; font-size:28px; font-weight: 700; text-align:center">Корзина пуста</div>
+                {% endif %}
+            {% else %}
+                <div class="out_login">
+                    <div style="color:#001a34; font-size:28px; font-weight: 700;">Корзина пуста</div>
+                    <p></p>
+                    <div>
+                <span>
+                    Если в корзине были товары –
+                    <a style="text-decoration:none;" href="{{ url_for('login') }}">войдите</a>
+                    , чтобы посмотреть список.
+                </span>
+                    </div>
+                </div>
+            {% endif %}
+{% endblock %}
