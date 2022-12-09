@@ -19,7 +19,7 @@ def home():
         cursor.execute('SELECT * FROM service')
         data = cursor.fetchall()
         print(data)
-        return render_template('home.html', data=data)
+        return render_template('home.html', data=data, cart=session['cart'])
     else:
         return redirect("/login")
 
@@ -33,10 +33,9 @@ def home_find(name):
         cursor.execute(f"""SELECT * FROM service WHERE name LIKE '%{name}%'""")
         data = cursor.fetchall()
         if data:
-            print(data)
-            return render_template('home.html', data=data)
+            return render_template('home.html', data=data, cart=session['cart'])
         else:
-            return render_template('home.html')
+            return render_template('home.html', cart=session['cart'])
     else:
         return redirect("/login")
 
@@ -51,31 +50,48 @@ def service(service_id):
     return render_template('service.html', data=data)
 
 
-@app.route('/cart/<int:service_id>')
-def buy(service_id):
-    db = sqlite3.connect("tour_service.db")
-    db.row_factory = sqlite3.Row
-    cursor = db.cursor()
-    cursor.execute(f'SELECT * FROM service WHERE service_id = {service_id}')
-    data = cursor.fetchone()
-    print(data)
-    return render_template("cart.html", data=data)
-
-
 @app.route('/cart')
 def cart():
-    return render_template('cart.html')
-
-
-@app.route('/cart/<int:service_id>')
-def buy_service(service_id):
     db = sqlite3.connect("tour_service.db")
     db.row_factory = sqlite3.Row
     cursor = db.cursor()
-    cursor.execute(f'SELECT * FROM service WHERE service_id = {service_id}')
-    data = cursor.fetchone()
+    data = []
+    for i in session['cart']:
+        cursor.execute(f"""SELECT * FROM service WHERE service_id  = {i} """)
+        data.append(cursor.fetchone())
     return render_template('cart.html', data=data)
 
+
+@app.route('/remove_from_cart/<int:service_id>', methods=['POST', 'GET', 'DELETE'])
+def remove_from_cart(service_id):
+    session['cart'].remove(service_id)
+    ses = session['cart']
+    if ses:
+        session['cart'] = ses
+    else:
+        session['cart'] = []
+    return redirect('/cart')
+
+
+@app.route('/add_to_cart/<int:product_id>', methods=['POST', 'GET'])
+def add_to_cart(product_id):
+    if session['cart'] and product_id not in session['cart']:
+        session['cart'] += [product_id]
+    elif not session['cart']:
+        session['cart'] = [product_id]
+    db = sqlite3.connect("tour_service.db")
+    db.row_factory = sqlite3.Row
+    cursor = db.cursor()
+    cursor.execute('SELECT * FROM service')
+    data = cursor.fetchall()
+    print(session)
+    return redirect('/home')
+
+
+@app.route('/buy')
+def buy():
+    session['cart'] = []
+    return render_template('payment.html')
 
 @app.route('/')
 @app.route('/login', methods=['GET', 'POST'])

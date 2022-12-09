@@ -112,10 +112,13 @@
                             <div class="price-wrap">
                                 <span class="price">{{ service.price }} ₽</span>
                             </div>
-                            <a href="/cart/{{ service.service_id }}">
-                                <button class="btn btn-sm btn-outline-danger w-100 mt-2">Приобрести</button>
-                            </a>
-
+                                <a class="btn btn-sm btn-outline-danger w-100" href="/add_to_cart/{{ service.service_id }}" methods="DELETE" >
+                                    {% if service.service_id in cart %}
+                                        Уже приобретено
+                                    {% else %}
+                                        Приобрести
+                                    {% endif %}
+                                </a>
                         </figcaption>
                     </figure>
                 </div>

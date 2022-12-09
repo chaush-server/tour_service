@@ -6,73 +6,112 @@
 
 {% block body %}
     <style>
+        .shopping-cart {
+            width: 850px;
+            margin: 80px auto;
+            background: #FFFFFF;
+            box-shadow: 1px 2px 3px 4px rgba(0, 0, 0, 0.20);
+            border-radius: 6px;
 
-        .out_login {
-            text-align: center;
+            display: flex;
+            flex-direction: column;
         }
 
-        .cart_pay {
+        .title {
+            height: 60px;
+            padding: 20px 30px;
+            font-size: 18px;
+            font-family: Arial;
+            font-weight: 400;
+        }
+
+        .item {
+            padding: 20px 30px;
+            height: 200px;
             display: flex;
         }
 
-        .payment {
-            padding: 20px;
-            margin: 0 20px;
-            border: none;
-            border-radius: 12px;
-            min-width: 300px;
-            width: 400px;
-            box-shadow: 0 6px 16px rgb(0 26 52 / 16%), 0 0 0 rgb(0 26 52 / 5%);
+        .item {
+            border-top: 1px solid #E1E8EE;
+            border-bottom: 1px solid #E1E8EE;
+            margin: auto;
+        }
+
+        .image {
+            margin: 0px 20px 0px 0px;
+            padding: 0px;
+        }
+
+        img {
+            padding: 0px;
+            margin: 0px;
+            height: 150px;
+            border-radius: 0.55rem;
+        }
+
+        .delete-btn {
+            margin: auto;
+            text-decoration: none;
+        }
+
+        .description {
+            display: block;
+            font: 18px YS Text, Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            width: 200px;
+        }
+
+
+        .total-price {
+            display: inline;
+            font: 18px YS Text, Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            margin-left: 200px;
+            margin-right: 10px;
+        }
+
+        .left-desc {
+            margin-top: 65px;
+            width: 300px;
+        }
+
+        .empty{
+            font-weight: bold;
+            font-size: 30px;
+            margin: 10px;
         }
 
     </style>
-    <div class="container">
-        <div>
-            {% if session['logged'] == true %}
+    <div class="shopping-cart">
+    {% if data %}
+        <div class="title">
+            Корзина
+        </div>
+        {% for service in data %}
+            <!-- Товар -->
+            <div class="item">
 
-                {% if data is defined %}{% for ser in data %}
-                    </div>
-                    {{ data }}
-                    </div>
-
-                {% endfor %}
-                    <div style="color:#001a34; font-size:28px; font-weight: 700;">Корзина</div>
-                    <br>
-                    <div class="cart_pay">
-                        <div>
-
-
-                        </div>
-                        <div>
-                            <div class="payment">
-                                <div style="font-size:20px;font-weight: 600;">Ваша корзина</div>
-                                <div id="total_count">Товары ({{ total_count }})</div>
-                                <hr>
-                                <span>
-                        <span style="font-size:20px;font-weight: 600; ">Общая стоимость</span>
-                        <span style="font-size:20px;font-weight: 600; display:block; float:right"
-                              id="total_price">{{ total_price }}</span>
-                    </span>
-                                <button style="margin-top:16px" class="btn btn-success w-100">Перейти к оформлению
-                                </button>
-                            </div>
-
-                        </div>
-                    </div>
-                {% else %}
-                    <div style="color:#001a34; font-size:28px; font-weight: 700; text-align:center">Корзина пуста</div>
-                {% endif %}
-            {% else %}
-                <div class="out_login">
-                    <div style="color:#001a34; font-size:28px; font-weight: 700;">Корзина пуста</div>
-                    <p></p>
-                    <div>
-                <span>
-                    Если в корзине были товары –
-                    <a style="text-decoration:none;" href="{{ url_for('login') }}">войдите</a>
-                    , чтобы посмотреть список.
-                </span>
-                    </div>
+                <div class="image">
+                    <img src="{{ service.image }}" alt=""/>
                 </div>
-            {% endif %}
+
+                <div class="description">
+                    <span>{{ service.name }}</span>
+                </div>
+                <div class="left-desc">
+                    <div class="total-price">$549</div>
+                    <a class="delete-btn"  href="/remove_from_cart/{{ service.service_id }}">
+                        ❌
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+        <a class="btn" href="/buy" style="margin:10px 45% 10px 45%; width:10%; color:black;background: #ffc107">Buy</a>
+    {% endif %}
+    {% if not data %}
+        <div class="empty">
+        Корзина пуста
+        </div>
+    {% endif %}
+    </div>
 {% endblock %}
