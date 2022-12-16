@@ -19,7 +19,11 @@ def home():
         cursor.execute('SELECT * FROM service')
         data = cursor.fetchall()
         print(data)
-        return render_template('home.html', data=data, cart=session['cart'])
+        if session.get('cart'):
+            cart_data = session['cart']
+        else:
+            cart_data = []
+        return render_template('home.html', data=data, cart=cart_data)
     else:
         return redirect("/login")
 
@@ -47,7 +51,7 @@ def service(service_id):
     cursor = db.cursor()
     cursor.execute(f'SELECT * FROM service WHERE service_id = {service_id}')
     data = cursor.fetchone()
-    return render_template('service.html', data=data)
+    return render_template('service.html', data=data, cart=session['cart'])
 
 
 @app.route('/cart')
@@ -75,16 +79,10 @@ def remove_from_cart(service_id):
 
 @app.route('/add_to_cart/<int:product_id>', methods=['POST', 'GET'])
 def add_to_cart(product_id):
-    if session['cart'] and product_id not in session['cart']:
+    if session.get('cart') and product_id not in session['cart']:
         session['cart'] += [product_id]
-    elif not session['cart']:
+    elif not session.get('cart'):
         session['cart'] = [product_id]
-    db = sqlite3.connect("tour_service.db")
-    db.row_factory = sqlite3.Row
-    cursor = db.cursor()
-    cursor.execute('SELECT * FROM service')
-    data = cursor.fetchall()
-    print(session)
     return redirect('/home')
 
 
@@ -92,6 +90,7 @@ def add_to_cart(product_id):
 def buy():
     session['cart'] = []
     return render_template('payment.html')
+
 
 @app.route('/')
 @app.route('/login', methods=['GET', 'POST'])
@@ -137,8 +136,8 @@ def register():
     if session.get('logged'):
         return redirect('/home')
     msg = ''
-    if request.method == 'POST' and 'username' in request.form \
-            and 'password' in request.form and 'email' in request.form:
+    if request.method == 'POST' and request.args.get('username') and request.args.get('password') \
+            and request.args.get('email'):
         username = request.form['username']
         password = pbkdf2_sha256.hash(request.form['password'])
         email = request.form['email']
