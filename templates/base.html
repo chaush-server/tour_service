@@ -18,31 +18,34 @@
 
 <!--<body style="background-image: linear-gradient(135deg, rgb(254,255,255) 0%,rgb(221,241,249) 35%,rgb(160,216,239) 100%);background-size: 1000%; ">-->
 <body>
+<style>
+    .find {
+        padding: 6px;
+        border-radius: 7px;
+        margin-right: 20px;
+    }
+</style>
 <header style="position: sticky; top: 0; z-index:1" class="p-3 bg-dark mb-4 text-white">
     <div class="container">
         <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
                 <li><a href="/" class="nav-link px-2 text-secondary">Главная</a></li>
                 {% if session['admin'] == True %}
-                    <li><a href="#" class="nav-link px-2 text-white">Туры</a></li>
+                    <li><a href="/admin" class="nav-link px-2 text-white">Туры</a></li>
                 {% endif %}
                 <!--                <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>-->
                 <!--                <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>-->
-                <li><a href="about" class="nav-link px-2 text-white">О нас</a></li>
+                <li><a href="/about" class="nav-link px-2 text-white">О нас</a></li>
             </ul>
-            <form name="idform" class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
-                <input type="text" name="id" class="form-control form-control-dark"
-                       placeholder="Search..."
-                       onchange="document.getElementById('link').href='/find='+escape(this.value)"/>
-
+        {%  if url_for(request.endpoint, **request.view_args) == "/home" %}
+            <form name="idform" method="post">
+                    <label for="tofind">
+                        <input type="text" name="id" class="find"
+                               placeholder="Search..."
+                               onchange="document.getElementById('link').href='/find='+escape(this.value)"/>
+                    </label>
             </form>
-            <a id="link" style="text-decoration: none" href="/">
-                <button type="button" class="btn btn-warning">
-                <span style=" align-items:center;" class="menu-icon">
-                🔎
-                </span>
-                </button>&nbsp;&nbsp;&nbsp;
-            </a>
+        {% endif %}
             <a style="text-decoration: none" href="/cart">
                 <button type="button" class="btn btn-warning">
                 <span style=" align-items:center;" class="menu-icon">
@@ -66,11 +69,11 @@
 <div>
     <footer class="py-3 my-4">
         <ul class="nav justify-content-center border-bottom pb-3 mb-3">
-            <li class="nav-item"><a href="/home" class="nav-link px-2 text-muted">Home</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Features</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">Pricing</a></li>
-            <li class="nav-item"><a href="#" class="nav-link px-2 text-muted">FAQs</a></li>
-            <li class="nav-item"><a href="/about" class="nav-link px-2 text-muted">About</a></li>
+            <li class="nav-item"><a href="/home" class="nav-link px-2 text-muted">Главная</a></li>
+            {% if session['admin'] %}
+            <li class="nav-item"><a href="/admin" class="nav-link px-2 text-muted">Туры</a></li>
+            {% endif %}
+            <li class="nav-item"><a href="/about" class="nav-link px-2 text-muted">О нас</a></li>
         </ul>
         <p class="text-center text-muted">© 2022 Freedom, Inc</p>
     </footer>

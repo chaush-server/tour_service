@@ -2,32 +2,28 @@
 {% block title %}{{ data['name'].capitalize() }}{% endblock %}
 {% block body %}
     <style>
-        .col {
-            float: left;
-            margin-left: 10%;
-        }
-
-        .col + .col {
-            float: left;
-            margin-left: 20px;
-        }
-
-        /* or */
-
-        .col:not(:nth-child(1)) {
-            float: left;
-            margin-left: 20px;
+        .row {
+            width: 100%;
         }
     </style>
 
-    <div class="row" style="align-items: end">
-        <div class="col"><img src="{{ data['image'] }}" alt="error"></div>
-        <div class="col">column
-
-            <a href="/cart/{{ data['service_id'] }}">
-                <button class="btn btn-sm btn-outline-danger w-100 mt-2">Приобрести</button>
+    <div class="row">
+        <div class="col" style="margin: 0 auto; border-right: 1px solid black"><img style="margin: 0 0 0 80px;"
+                                                                                    src="{{ data['image'] }}"
+                                                                                    alt="error">
+        </div>
+        <div class="col" style="margin-right: 200px;">{{ data.route }}
+            <br>
+            <div style="font: 18px YS Text, Arial, Helvetica, sans-serif; margin: 10px 0 10px 0">
+                Цена: {{ data.price }} ₽
+            </div>
+            <a class="btn btn-sm btn-outline-danger w-100" href="/add_to_cart/{{ data.service_id }}">
+                {% if data.service_id in cart %}
+                    Уже приобретено
+                {% else %}
+                    Приобрести
+                {% endif %}
             </a>
         </div>
-        <div class="col"></div>
     </div>
 {% endblock %}

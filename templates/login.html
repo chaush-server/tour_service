@@ -16,8 +16,8 @@
             Login
         </p>
         {{ msg }}
-        <input type="text" name="username" id="username" class="login-form" placeholder="Username">
-        <input type="password" name="password" id="password" class="login-form" placeholder="Password">
+        <label for="username"></label><input type="text" name="username" id="username" class="login-form" placeholder="Username">
+        <label for="password"></label><input type="password" name="password" id="password" class="login-form" placeholder="Password">
         <input type="submit" value="Sign In" id="login-btn" class="login-btn">
         <p class="have-no-account">Have no account?<a href="{{ url_for('register') }}">Register</a></p>
     </form>

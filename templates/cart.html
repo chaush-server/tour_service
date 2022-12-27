@@ -5,113 +5,53 @@
 {% endblock %}
 
 {% block body %}
-    <style>
-        .shopping-cart {
-            width: 850px;
-            margin: 80px auto;
-            background: #FFFFFF;
-            box-shadow: 1px 2px 3px 4px rgba(0, 0, 0, 0.20);
-            border-radius: 6px;
+    <section class="h-100">
+        <div class="container h-100 py-5">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-10">
 
-            display: flex;
-            flex-direction: column;
-        }
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h3 class="fw-normal mb-0 text-black">Корзина</h3>
+                    </div>
 
-        .title {
-            height: 60px;
-            padding: 20px 30px;
-            font-size: 18px;
-            font-family: Arial;
-            font-weight: 400;
-        }
-
-        .item {
-            padding: 20px 30px;
-            height: 200px;
-            display: flex;
-        }
-
-        .item {
-            border-top: 1px solid #E1E8EE;
-            border-bottom: 1px solid #E1E8EE;
-            margin: auto;
-        }
-
-        .image {
-            margin: 0px 20px 0px 0px;
-            padding: 0px;
-        }
-
-        img {
-            padding: 0px;
-            margin: 0px;
-            height: 150px;
-            border-radius: 0.55rem;
-        }
-
-        .delete-btn {
-            margin: auto;
-            text-decoration: none;
-        }
-
-        .description {
-            display: block;
-            font: 18px YS Text, Arial, Helvetica, sans-serif;
-            font-weight: bold;
-            width: 200px;
-        }
-
-
-        .total-price {
-            display: inline;
-            font: 18px YS Text, Arial, Helvetica, sans-serif;
-            font-weight: bold;
-            margin-left: 200px;
-            margin-right: 10px;
-        }
-
-        .left-desc {
-            margin-top: 65px;
-            width: 300px;
-        }
-
-        .empty{
-            font-weight: bold;
-            font-size: 30px;
-            margin: 10px;
-        }
-
-    </style>
-    <div class="shopping-cart">
-    {% if data %}
-        <div class="title">
-            Корзина
-        </div>
-        {% for service in data %}
-            <!-- Товар -->
-            <div class="item">
-
-                <div class="image">
-                    <img src="{{ service.image }}" alt=""/>
-                </div>
-
-                <div class="description">
-                    <span>{{ service.name }}</span>
-                </div>
-                <div class="left-desc">
-                    <div class="total-price">$549</div>
-                    <a class="delete-btn"  href="/remove_from_cart/{{ service.service_id }}">
-                        ❌
-                    </a>
-                </div>
-            </div>
-        {% endfor %}
-        <a class="btn" href="/buy" style="margin:10px 45% 10px 45%; width:10%; color:black;background: #ffc107">Buy</a>
-    {% endif %}
+                    {% if data %}
+                        {% for service in data %}
+                            <div class="card rounded-3 mb-4">
+                                <div class="card-body p-4">
+                                    <div class="row d-flex justify-content-between align-items-center">
+                                        <div class="col-md-2 col-lg-2 col-xl-2">
+                                            <img
+                                                    src='{{ service.image }}'
+                                                    class="img-fluid rounded-3" alt="img">
+                                        </div>
+                                        <div class="col-md-3 col-lg-3 col-xl-3">
+                                            <p class="lead fw-normal mb-2">{{ service.name }}</p>
+                                        </div>
+                                        <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                            <h5 class="mb-0">{{ service.price }}₽</h5>
+                                        </div>
+                                        <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                                            <a style="text-decoration: 0" href="/remove_from_cart/{{ service.service_id }}">
+                                                ❌
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <div style="margin:0 auto; color:black;text-align: center;font-size: larger;font-weight: bold">
+                        Итоговая цена: {{ data | sum(attribute='price') }}₽
+                        </div>
+                        <a class="btn" href="/buy"
+                           style="margin:10px 45% 10px 45%; width:10%; color:black;background: #ffc107">Buy</a>
+                        </div>
+                        </div>
+                        </div>
+                        </section>
+                    {% endif %}
     {% if not data %}
         <div class="empty">
-        Корзина пуста
+            Корзина пуста
         </div>
     {% endif %}
-    </div>
 {% endblock %}
